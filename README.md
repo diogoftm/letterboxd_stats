@@ -28,20 +28,21 @@ Package to get stats about [Letterboxd](https://letterboxd.com/) users based on 
 
 ## Example
 ```go
-// user info
-var user User
+import "github.com/diogoftm/letterboxd_stats"
+// get user info
+var user lbstats.User
 user = LoadUser("xpto/profile.csv") // get user info
 
 // load films
-var filmList FilmList
-filmList = LoadFilmsFromCSVfiles("xpto/diary.csv")
+var filmList lbstats.FilmList
+filmList = lbstats.LoadFilmsFromCSVfiles("xpto/diary.csv")
 
-// stats
-var bs BasicStats
-var cs CreditsStats
+// get basic and credits stats
+var bs lbstats.BasicStats
+var cs lbstats.CreditsStats
 var err error
-bs, err = GetBasicStats(filmList, 0)
-cs, err = GetCreditsStats(filmList, 0)
+bs, err = lbstats.GetBasicStats(filmList, 0)
+cs, err = lbstats.GetCreditsStats(filmList, 0)
 ```
 
 ## TMDB
