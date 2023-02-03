@@ -3,9 +3,9 @@
 Package to load films, user information and create stats based on [Letterboxd](https://letterboxd.com/) .csv exportable files.
 
 ## Stats
-> When calling `LoadFilmsFromCSVfile()` a list of films is returned, using it anithing can be done with the film info privided
+> When calling `LoadFilmsFromCSVfile()` a list of films is returned, using it anything can be done with the film info privided
 by TMDB. So, if you wish to create your own stats or just display the list of films there is no need to get the buil-in stats. 
-This package can be used just for loading information from the .csv files.
+This package can be used just for loading data from the .csv files and obtain the information about each film.
 
 ### Basic Stats
 - Number of films - `NFilms int`
