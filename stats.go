@@ -13,19 +13,23 @@ func GetBasicStats(list FilmList, year int) (BasicStats, error) {
 	if year == 0 {
 		films = list.ListFilms()
 		b.NFilms = len(list.AllFilms)
-		b.NRewatched = nRewatched(list, year)
+		fr, _, counter := nRewatched(list, year)
+		b.NRewatched = counter
+		films = append(films, fr...) //add rewatched films
 	} else {
 		f, ok := list.FilmsByYear[year]
 		if ok {
 			films = f
-			b.NFilms = len(f)
-			b.NRewatched = nRewatched(list, year)
+			fr, countUnique, counter := nRewatched(list, year)
+			b.NRewatched = counter
+			films = append(films, Duplicates(fr)...) //add films that were rewatched more than once
+			b.NFilms = len(f) - countUnique
 		} else {
 			return b, errors.New("Invalid year")
 		}
 	}
 
-	b.MostSeenDecades = make(map[int]int)
+	b.MostSeenYears = make(map[int]int)
 	b.Genres = make(map[string]int)
 	b.Languages = make(map[string]int)
 	b.Countries = make(map[string]int)
@@ -53,7 +57,7 @@ func GetBasicStats(list FilmList, year int) (BasicStats, error) {
 		for _, c := range v.Basic.Production_countries {
 			b.Countries[c.Name]++
 		}
-		b.MostSeenDecades[v.Basic.Year]++
+		b.MostSeenYears[v.Basic.Year]++
 	}
 	b.AvgRating /= float32(nRated)
 	return b, nil
@@ -113,23 +117,38 @@ func GetCreditsStats(list FilmList, year int) (CreditsStats, error) {
 }
 
 // number of rewatches
-func nRewatched(list FilmList, year int) int {
+func nRewatched(list FilmList, year int) ([]*Film, int, int) {
 	counter := 0
+	counterUnique := 0
 	var v []*Film
+	var rewatched []*Film
 	if year == 0 {
 		v = list.ListFilms()
 		for _, f := range v {
 			counter += len(f.Rewatch)
+			for it := 0; it < len(f.Rewatch); it++ {
+				rewatched = append(rewatched, f)
+				if it == 0 {
+					counterUnique++
+				}
+			}
 		}
 	} else {
 		v = list.FilmsByYear[year]
+		flag := 0
 		for _, f := range v {
+			flag = 0
 			for _, r := range f.Rewatch {
 				if SingleAtoi(r.Date[0:4]) == year {
 					counter++
+					rewatched = append(rewatched, f)
+					if flag == 0 {
+						counterUnique++
+					}
+					flag = 1
 				}
 			}
 		}
 	}
-	return counter
+	return rewatched, counterUnique, counter
 }

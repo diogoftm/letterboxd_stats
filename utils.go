@@ -38,3 +38,16 @@ func ParseToDate(str string) time.Time {
 	}
 	return date
 }
+
+func Duplicates(films []*Film) []*Film {
+	inResult := make(map[*Film]bool)
+	var duplicates []*Film
+	for _, film := range films {
+		if _, ok := inResult[film]; !ok {
+			inResult[film] = true
+		} else {
+			duplicates = append(duplicates, film)
+		}
+	}
+	return duplicates
+}

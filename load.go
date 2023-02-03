@@ -27,7 +27,7 @@ func (lst FilmList) ListFilms() []*Film {
 }
 
 // Load films from diary.csv like file
-func LoadFilmsFromCSVfiles(diaryPath string) FilmList {
+func LoadFilmsFromCSVfile(diaryPath string) FilmList {
 	channel := make(chan []interface{})
 	wg := new(sync.WaitGroup)
 

@@ -1,12 +1,16 @@
 # letterboxd_stats
 
-Package to get stats about [Letterboxd](https://letterboxd.com/) users based on Letterboxd's .csv exportable files.
+Package to load films, user information and create stats based on [Letterboxd](https://letterboxd.com/) .csv exportable files.
 
 ## Stats
+> When calling `LoadFilmsFromCSVfile()` a list of films is returned, using it anithing can be done with the film info privided
+by TMDB. So, if you wish to create your own stats or just display the list of films there is no need to get the buil-in stats. 
+This package can be used just for loading information from the .csv files.
+
 ### Basic Stats
 - Number of films - `NFilms int`
 - Number of rewatched films - `NRewatched int`
-- Most seen decade - `MostSeenDecades map[int]int`
+- Most seen years - `MostSeenYears map[int]int`
 - Total of minutes - `NMinutes int`
 - Number of films watched per week - `NWeek [52]int`
 - Number of films watched per fay of week (0 for sunday, ...) - `NDayOfWeek [7]int`
@@ -25,17 +29,16 @@ Package to get stats about [Letterboxd](https://letterboxd.com/) users based on 
 - Number of films per producer - `Producers map[string]int`
 - Number of films per music crew member - `Music map[string]int`
 
-
 ## Example
 ```go
 import "github.com/diogoftm/letterboxd_stats"
 // get user info
 var user lbstats.User
-user = LoadUser("xpto/profile.csv") // get user info
+user = lbstats.LoadUser("xpto/profile.csv") // get user info
 
 // load films
 var filmList lbstats.FilmList
-filmList = lbstats.LoadFilmsFromCSVfiles("xpto/diary.csv")
+filmList = lbstats.LoadFilmsFromCSVfile("xpto/diary.csv")
 
 // get basic and credits stats
 var bs lbstats.BasicStats

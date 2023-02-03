@@ -97,21 +97,21 @@ type Film struct {
 type FilmList struct {
 	AllFilms        map[int]*Film    //keys are TMDB id's
 	AllFilmsByLbURI map[string]*Film //keys are letterboxd URI's
-	FilmsByYear     map[int][]*Film
+	FilmsByYear     map[int][]*Film  //rewatches are included, use nRewatched() to get the full list taking into account the full depth of the Rewatched list
 }
 
 type BasicStats struct {
-	NFilms          int
-	NRewatched      int
-	MostSeenDecades map[int]int
-	NMinutes        int
-	NWeek           [52]int
-	NDayOfWeek      [7]int //0 for sunday, ...
-	NMonth          [12]int
-	Genres          map[string]int
-	Languages       map[string]int
-	Countries       map[string]int
-	AvgRating       float32
+	NFilms        int //number of films (does not include rewatches)
+	NRewatched    int
+	MostSeenYears map[int]int
+	NMinutes      int
+	NWeek         [52]int
+	NDayOfWeek    [7]int //0 for sunday, ...
+	NMonth        [12]int
+	Genres        map[string]int
+	Languages     map[string]int
+	Countries     map[string]int
+	AvgRating     float32
 }
 
 type CreditsStats struct {
